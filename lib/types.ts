@@ -19,6 +19,8 @@ export type CantonScan = {
   scans: number
 }
 
+export type Period = "today" | "7d" | "30d" | "all"
+
 export type MenuItem = {
   name: string
   price: number

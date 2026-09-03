@@ -1,4 +1,4 @@
-import type { CantonScan, MenuData, Restaurant } from "@/lib/types"
+import type { CantonScan, MenuData, Period, Restaurant } from "@/lib/types"
 
 export const CANTON_NAMES: Record<string, string> = {
   VD: "Vaud",
@@ -19,6 +19,58 @@ export const cantonScans: CantonScan[] = [
 ]
 
 export const totalScans = cantonScans.reduce((sum, c) => sum + c.scans, 0)
+
+// Scans par canton pour chaque période. "30d" reprend la répartition de
+// référence ci-dessus ; les autres périodes sont des jeux cohérents,
+// construits sur le même classement de cantons.
+export const periodCantonScans: Record<Period, CantonScan[]> = {
+  today: [
+    { code: "VD", name: "Vaud", scans: 62 },
+    { code: "GE", name: "Genève", scans: 47 },
+    { code: "VS", name: "Valais", scans: 38 },
+    { code: "BE", name: "Berne", scans: 26 },
+    { code: "FR", name: "Fribourg", scans: 19 },
+    { code: "NE", name: "Neuchâtel", scans: 12 },
+  ],
+  "7d": [
+    { code: "VD", name: "Vaud", scans: 412 },
+    { code: "GE", name: "Genève", scans: 311 },
+    { code: "VS", name: "Valais", scans: 238 },
+    { code: "BE", name: "Berne", scans: 164 },
+    { code: "FR", name: "Fribourg", scans: 127 },
+    { code: "NE", name: "Neuchâtel", scans: 74 },
+  ],
+  "30d": cantonScans,
+  all: [
+    { code: "VD", name: "Vaud", scans: 7360 },
+    { code: "GE", name: "Genève", scans: 5540 },
+    { code: "VS", name: "Valais", scans: 4210 },
+    { code: "BE", name: "Berne", scans: 2890 },
+    { code: "FR", name: "Fribourg", scans: 2260 },
+    { code: "NE", name: "Neuchâtel", scans: 1320 },
+  ],
+}
+
+export const periodLabels: Record<Period, string> = {
+  today: "Aujourd'hui (en direct)",
+  "7d": "7 derniers jours",
+  "30d": "30 derniers jours",
+  all: "Depuis le lancement",
+}
+
+export const periodStatLabels: Record<Period, string> = {
+  today: "En direct aujourd'hui",
+  "7d": "Scans sur 7 jours",
+  "30d": "Scans sur 30 jours",
+  all: "Scans depuis le lancement",
+}
+
+export const periodHeatmapDescriptions: Record<Period, string> = {
+  today: "Répartition des lectures de QR code depuis ce matin, mise à jour en direct.",
+  "7d": "Répartition des lectures de QR code sur les 7 derniers jours.",
+  "30d": "Répartition des lectures de QR code sur les 30 derniers jours.",
+  all: "Répartition des lectures de QR code depuis le lancement de CARTIS.",
+}
 
 export const restaurants: Restaurant[] = [
   {

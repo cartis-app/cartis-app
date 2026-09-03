@@ -1,4 +1,4 @@
-import { cantonScans, totalScans } from "@/lib/data"
+import type { CantonScan } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 const intensitySteps = [
@@ -17,16 +17,21 @@ function getIntensityClass(ratio: number) {
   return intensitySteps[index]
 }
 
-export function CantonHeatmap() {
-  const max = Math.max(...cantonScans.map((c) => c.scans))
-  const sorted = [...cantonScans].sort((a, b) => b.scans - a.scans)
+type CantonHeatmapProps = {
+  cantons: CantonScan[]
+  total: number
+}
+
+export function CantonHeatmap({ cantons, total }: CantonHeatmapProps) {
+  const max = Math.max(...cantons.map((c) => c.scans))
+  const sorted = [...cantons].sort((a, b) => b.scans - a.scans)
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3">
         {sorted.map((canton) => {
           const ratio = canton.scans / max
-          const percentOfTotal = Math.round((canton.scans / totalScans) * 100)
+          const percentOfTotal = Math.round((canton.scans / total) * 100)
           return (
             <div key={canton.code} className="flex items-center gap-3">
               <div className="flex w-24 shrink-0 flex-col leading-tight sm:w-28">
